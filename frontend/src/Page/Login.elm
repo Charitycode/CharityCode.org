@@ -1,7 +1,8 @@
 module Page.Login exposing (LoginModel, asEmailIn, asPasswordIn, view)
 
 import Browser
-import Html exposing (Html, button, div, text, input, span)
+import Html exposing (Html, button, div, text, input, label)
+import Html.Attributes exposing (type_, placeholder, value)
 import Html.Events exposing (onClick, onInput)
 import Http
 
@@ -23,11 +24,9 @@ view : LoginModel -> { title : String, content : Html Msg }
 view model =
     { title = "Login"
     ,  content = div []
-            [ span [] [ text "First Name" ]
-            , input [ onInput EnteredEmail ] []
-            , span [] [ text "Last Name" ]
-            , input [ onInput EnteredPassword ] []
-            , div [] [ text <| (model.developerModel.firstName ++ " " ++ model.developerModel.lastName) ]
+            [ label [] [ text "Email", input [ type_ "text", placeholder "MyAwesomeEmail@xyz.com", value model.email, onInput EnteredEmail ] [] ]
+            , label [] [ text "Password", input [ type_ "password", placeholder "Keep it secret!", value model.password, onInput EnteredPassword ] [] ]
+            , div [] [ text <| (model.email ++ " " ++ model.password) ]
             ]
     }
 
@@ -36,5 +35,3 @@ type Msg
     = SubmittedForm
     | EnteredEmail String
     | EnteredPassword String
-    | CompletedLogin (Result Http.Error Viewer)
-    | GotSession Session
