@@ -6,6 +6,7 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Url
 import NavBar as NavBar
+import Page.Login as Login
 
 
 -- MAIN
@@ -23,17 +24,24 @@ main =
 
 
 -- MODEL
-
+type Route
+  = Home
+  | Login
+  | SignUp
+  | Contracts
+  | Contract Int
+  | Profile String
 
 type alias Model =
   { key : Nav.Key
   , url : Url.Url
+  , currentView: Route
   }
 
 
 init : () -> Url.Url -> Nav.Key -> ( Model, Cmd Msg )
 init flags url key =
-  ( Model key url, Cmd.none )
+  ( Model key url Home, Cmd.none )
 
 
 
@@ -57,7 +65,7 @@ update msg model =
           ( model, Nav.load href )
 
     UrlChanged url ->
-      ( { model | url = url }
+      ( { model | url = url, currentView = Login }
       , Cmd.none
       )
 
@@ -80,10 +88,18 @@ view model =
   { title = "Charity Code - Helping Nonprofits find the development help they need!"
   , body =
       [ NavBar.view {}
+      , viewBody model
       , text "The current URL is: "
       , b [] [ text (Url.toString model.url) ]
       ]
   }
+
+viewBody: Model -> Html msg
+viewBody model =
+  case model.currentView of
+    Login ->
+      (Login.view {email = "", password = ""}).content
+    _ -> div [] [text "Nothing to see here!"]
 
 viewLink : String -> Html msg
 viewLink path =
