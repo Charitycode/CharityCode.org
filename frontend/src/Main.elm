@@ -5,10 +5,10 @@ import Browser.Navigation as Nav
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Url
+import Url.Parser as Parser exposing (Parser, (</>), int, map, oneOf, s, string)
 import NavBar as NavBar
 import Page.Login as Login
-
-
+ 
 -- MAIN
 main : Program () Model Msg
 main =
@@ -31,6 +31,22 @@ type Route
   | Contracts
   | Contract Int
   | Profile String
+  | NotFound
+
+routeParser : Parser (Route -> a) a
+routeParser = 
+  oneOf
+    [ map Home (s "home")
+    , map Login (s "login")
+    , map SignUp (s "signup")
+    , map Contracts (s "contracts")
+    , map Contract (s "contract" </> int)
+    , map Profile (s "profile" </> string)
+    ]
+
+fromUrl : Url.Url -> Route
+fromUrl url =
+  Maybe.withDefault NotFound (Parser.parse routeParser url)
 
 type alias Model =
   { key : Nav.Key
@@ -46,7 +62,6 @@ init flags url key =
 
 
 -- UPDATE
-
 
 type Msg
   = LinkClicked Browser.UrlRequest
@@ -65,7 +80,7 @@ update msg model =
           ( model, Nav.load href )
 
     UrlChanged url ->
-      ( { model | url = url, currentView = Login }
+      ( { model | url = url, currentView = fromUrl url }
       , Cmd.none
       )
 
