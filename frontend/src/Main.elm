@@ -8,6 +8,7 @@ import Url
 import Url.Parser as Parser exposing (Parser, (</>), int, map, oneOf, s, string)
 import NavBar as NavBar
 import Page.Login as Login
+import Page.Home as Home
  
 -- MAIN
 main : Program () Model Msg
@@ -114,6 +115,8 @@ viewBody model =
   case model.currentView of
     Login ->
       (Login.view {email = "", password = ""}).content
+    Home ->
+      (Home.view).content
     _ -> div [] [text "Nothing to see here!"]
 
 viewLink : String -> Html msg
