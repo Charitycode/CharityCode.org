@@ -1,1 +1,7 @@
 @import '~bulma/bulma.sass';
+
+ul.is-unstyled {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
