@@ -9,7 +9,7 @@ import Http
 view : { title : String, content : Html msg }
 view =
   { title = ""
-  , content = div [ class "hero-body section" ]
+  , content = div [ class "hero-body section columns is-vcentered is-fullvh" ]
     [ div [ class "container has-text-centered" ]
         [ h1 [ class "title" ]
             [ text "Finding development help for Nonprofits is difficult." ]
