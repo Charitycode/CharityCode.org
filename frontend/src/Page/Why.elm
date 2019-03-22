@@ -13,11 +13,9 @@ view =
   , content = div [ class "hero-body" ]
     [ div [ class "container" ]
         [ h1 [ class "title" ]
-            [ text "Finding development help for Nonprofits is difficult." ]
-        , h2 [ class "subtitle" ]
-            [ text "We're hoping to change that." ]
-        , a [ class "button is-primary", href "/why" ]
-            [ text "Learn How" ]
+            [ text "We're helping Nonprofits find design, development, and tech help." ]
+        , p [ class "is-small" ]
+            [ text "Charity Code connects Nonprofits with developers and designers all over the world. Charity Code is a free (and open source!) service. We believe that all parties -- Developers, Designers, Nonprofits -- can benefit from working together." ]
         ]
     ]}
     
