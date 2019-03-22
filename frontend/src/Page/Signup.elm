@@ -1,4 +1,4 @@
-module Page.Why exposing (view)
+module Page.Signup exposing (view)
 
 import Browser
 import Html exposing (Html, button, div, text, input, label, h1, h2, p, figure, section, img, form, a)

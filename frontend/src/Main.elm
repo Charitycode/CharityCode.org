@@ -10,6 +10,7 @@ import NavBar as NavBar
 import Page.Login as Login
 import Page.Home as Home
 import Page.Why as Why
+import Page.Signup as Signup
 import Footer as Footer
  
 -- MAIN
@@ -37,6 +38,7 @@ type alias Model =
 init : () -> Url.Url -> Nav.Key -> ( Model, Cmd Msg )
 init flags url key =
   ( Model key url Home, Cmd.none )
+
 
 -- UPDATE
 type Msg
@@ -90,4 +92,6 @@ viewBody model =
       (Home.view).content
     Why ->
       (Why.view).content
+    SignUp ->
+      (Signup.view).content
     _ -> div [class "section"] [text "Nothing to see here!"]

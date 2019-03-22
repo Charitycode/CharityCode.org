@@ -13,6 +13,8 @@ type Route
   | Profile String
   | NotFound
 
+  
+
 routeParser : Parser (Route -> a) a
 routeParser = 
   oneOf
