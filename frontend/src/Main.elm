@@ -10,6 +10,7 @@ import NavBar as NavBar
 import Page.Login as Login
 import Page.Home as Home
 import Page.Why as Why
+import Page.Contracts as Contracts
 import Page.Signup as Signup
 import Footer as Footer
  
@@ -94,4 +95,6 @@ viewBody model =
       (Why.view).content
     SignUp ->
       (Signup.view).content
+    Contracts ->
+      (Contracts.view).content
     _ -> div [class "section"] [text "Nothing to see here!"]
