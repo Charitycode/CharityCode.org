@@ -11,6 +11,9 @@ import Page.Login as Login
 import Page.Home as Home
 import Page.Why as Why
 import Page.Contracts as Contracts
+import Page.Contract as Contract
+import Page.Profile as Profile
+import Session exposing (Session(..), navKey)
 import Page.Signup as Signup
 import Footer as Footer
  
@@ -29,39 +32,134 @@ main =
 
 
 -- MODEL
-type alias Model =
-  { key : Nav.Key
-  , url : Url.Url
-  , currentView: Route
-  }
-
+type Model
+  = Home Session
+  | Why Session
+  | SignUp Signup.Model
+  | Login Login.Model
+  | Contracts Contracts.Model
+  | Contract Contract.Model
+  | Profile Profile.Model
 
 init : () -> Url.Url -> Nav.Key -> ( Model, Cmd Msg )
 init flags url key =
-  ( Model key url Home, Cmd.none )
+  ( Home (Guest key), Cmd.none )
 
 
 -- UPDATE
 type Msg
   = LinkClicked Browser.UrlRequest
   | UrlChanged Url.Url
+  | GotLoginMsg Login.Msg
+  | GotSignupMsg Signup.Msg
+  | GotHomeMsg Home.Msg
+  | GotContractsMsg Contracts.Msg
+  | GotContractMsg Contract.Msg
+  | GotProfileMsg Profile.Msg
+  | GotWhyMsg Why.Msg
+  | NotFoundMsg
+
+toSession : Model -> Session
+toSession page =
+    case page of
+        Home home ->
+          home
+
+        Login login ->
+          Login.toSession login
+        
+        SignUp signup ->
+          Signup.toSession signup
+        
+        Contract contract ->
+          Contract.toSession contract
+
+        Contracts contracts ->
+          Contracts.toSession contracts
+
+        Why why ->
+          why
+
+        Profile profile ->
+          Profile.toSession profile
+
+
+updateWith : (subModel -> Model) -> (subMsg -> Msg) -> Model -> ( subModel, Cmd subMsg ) -> ( Model, Cmd Msg )
+updateWith toModel toMsg model ( subModel, subCmd ) =
+    ( toModel subModel
+    , Cmd.map toMsg subCmd
+    )
+
+changeRouteTo : Route -> Model -> ( Model, Cmd Msg )
+changeRouteTo maybeRoute model =
+    let
+        session =
+            toSession model
+    in
+    case maybeRoute of
+        Router.Home ->
+            ( model, Cmd.none )
+
+        Router.Why ->
+            ( model, Cmd.none )
+
+        Router.Login ->
+            Login.init session
+                |> updateWith Login GotLoginMsg model
+
+        Router.SignUp ->
+            Signup.init session
+                |> updateWith SignUp GotSignupMsg model
+
+        Router.Contracts ->
+            Contracts.init session
+                |> updateWith Contracts GotContractsMsg model
+
+        (Router.Contract id) ->
+            Contract.init session id
+                |> updateWith Contract GotContractMsg model
+
+        (Router.Profile id) ->
+            Profile.init session id
+                |> updateWith Profile GotProfileMsg model
+
+        Router.NotFound ->
+             ( Home (toSession model), Cmd.none )
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-  case msg of
-    LinkClicked urlRequest ->
+  case (msg, model) of
+    (LinkClicked urlRequest, _) ->
       case urlRequest of
         Browser.Internal url ->
-          ( model, Nav.pushUrl model.key (Url.toString url) )
+          ( model, Nav.pushUrl (navKey (toSession model)) (Url.toString url) )
 
         Browser.External href ->
           ( model, Nav.load href )
 
-    UrlChanged url ->
-      ( { model | url = url, currentView = fromUrl url }
-      , Cmd.none
-      )
+    (UrlChanged url, _) ->
+      changeRouteTo (fromUrl url) model
+
+    (GotHomeMsg homeMsg, Home home ) ->
+      ( Home (toSession model), Cmd.none )
+    (GotWhyMsg whyMsg, Why why) ->
+      ( Why (toSession model), Cmd.none )
+    (GotLoginMsg loginMsg, Login login) ->
+      ( Login login, Cmd.none )
+    (GotSignupMsg signupMsg, SignUp signup) ->
+      ( SignUp signup, Cmd.none )
+    (GotContractsMsg contractsMsg, Contracts contracts) ->
+      ( Contracts contracts, Cmd.none )
+    (GotContractMsg contractMsg, Contract contract) -> 
+      ( Contract contract, Cmd.none )
+    (GotProfileMsg profileMsg, Profile profile) ->
+      ( Profile profile, Cmd.none)
+
+    _ ->
+      ( Home (toSession model), Cmd.none )
+
+      
 
 
 
@@ -86,15 +184,15 @@ view model =
 
 viewBody: Model -> Html msg
 viewBody model =
-  case model.currentView of
-    Login ->
-      (Login.view {email = "", password = ""}).content
-    Home ->
+  case model of
+    Login loginModel ->
+      (Login.view loginModel).content
+    Home session ->
       (Home.view).content
-    Why ->
+    Why session ->
       (Why.view).content
-    SignUp ->
-      (Signup.view).content
-    Contracts ->
+    SignUp signupModel ->
+      (Signup.view signupModel).content
+    Contracts contractsModel ->
       (Contracts.view).content
     _ -> div [class "section"] [text "Nothing to see here!"]

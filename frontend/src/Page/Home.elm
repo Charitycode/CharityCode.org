@@ -1,4 +1,4 @@
-module Page.Home exposing (view)
+module Page.Home exposing (view, Msg)
 
 import Browser
 import Html exposing (Html, button, div, text, input, label, h1, h2, p, figure, section, img, form, a)
@@ -20,3 +20,6 @@ view =
         ]
     ]}
     
+type Msg
+  = Nothing
+  | Something

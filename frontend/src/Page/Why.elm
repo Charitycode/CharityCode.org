@@ -1,4 +1,4 @@
-module Page.Why exposing (view)
+module Page.Why exposing (view, Msg)
 
 import Browser
 import Html exposing (Html, button, div, text, input, label, h1, h2, p, figure, section, img, form, a)
@@ -35,3 +35,6 @@ header title =
 body: String -> Html msg
 body content =
     p [ class "is-small" ] [text content]
+
+type Msg 
+  = Nothing

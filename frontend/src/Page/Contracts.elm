@@ -1,10 +1,25 @@
-module Page.Contracts exposing (view)
+module Page.Contracts exposing (view, Model, toSession, Msg, init)
 
 import Browser
 import Html exposing (Html, table, thead, tr, th, tfoot, tbody, td, div, text, h1, p, a)
 import Html.Attributes exposing (type_, placeholder, value, class, src, attribute, href)
 import Html.Events exposing (onClick, onInput)
 import Http
+import Session exposing (Session)
+
+type alias Model =
+  { session: Session
+  }
+
+init : Session -> ( Model, Cmd msg )
+init session =
+    ( { session = session
+      }
+    , Cmd.none
+    )
+
+toSession: Model -> Session
+toSession model = model.session
 
 view : { title : String, content : Html msg }
 view =
@@ -57,3 +72,7 @@ tableFields = table [ class "table" ]
             ]
         ]
     ]
+
+type Msg 
+  = Nothing
+  | Something

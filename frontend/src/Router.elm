@@ -1,7 +1,7 @@
 module Router exposing (Route(..), routeParser, fromUrl)
 import Url
 import Url.Parser as Parser exposing (Parser, (</>), int, map, oneOf, s, string)
-
+import Browser.Navigation as Nav
 
 type Route
   = Home

@@ -1,26 +1,41 @@
-module Page.Login exposing (LoginModel, asEmailIn, asPasswordIn, view)
+module Page.Login exposing (Model, asEmailIn, asPasswordIn, view, init, toSession, Msg)
 
 import Browser
 import Html exposing (Html, button, div, text, input, label, h3, p, figure, section, img, form, a, span, i)
 import Html.Attributes exposing (type_, placeholder, value, class, src, attribute, href)
 import Html.Events exposing (onClick, onInput)
+import Session exposing (Session)
 import Http
 
 
-type alias LoginModel =
+init : Session -> ( Model, Cmd msg )
+init session =
+    ( { session = session
+      , password = ""
+      , email = ""
+      }
+    , Cmd.none
+    )
+
+
+type alias Model =
     { email: String
     , password: String
+    , session: Session
     }
+
+toSession: Model -> Session
+toSession model = model.session
     
-asEmailIn: LoginModel -> String -> LoginModel
+asEmailIn: Model -> String -> Model
 asEmailIn d s =
   { d | email = s }
   
-asPasswordIn: LoginModel -> String -> LoginModel
+asPasswordIn: Model -> String -> Model
 asPasswordIn d s =
   { d | password = s }
 
-view : LoginModel -> { title : String, content : Html msg }
+view : Model -> { title : String, content : Html msg }
 view model =
     { title = "Login"
     ,  content = div [ class "columns is-vcentered" ]
