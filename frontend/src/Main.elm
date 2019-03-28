@@ -43,7 +43,7 @@ type Model
 
 init : () -> Url.Url -> Nav.Key -> ( Model, Cmd Msg )
 init flags url key =
-  ( Home (Guest key), Cmd.none )
+  changeRouteTo (fromUrl url) (Home (Guest key))
 
 
 -- UPDATE
@@ -77,8 +77,8 @@ toSession page =
         Contracts contracts ->
           Contracts.toSession contracts
 
-        Why why ->
-          why
+        Why session ->
+          session
 
         Profile profile ->
           Profile.toSession profile
