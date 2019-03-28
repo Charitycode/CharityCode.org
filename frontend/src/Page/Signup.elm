@@ -10,12 +10,22 @@ import Http
 init : Session -> ( Model, Cmd msg )
 init session =
     ( { session = session
+      , email = ""
+      , password = ""
+      , accountType = Contractor
       }
     , Cmd.none
     )
 
+type AccountType
+    = Organization
+    | Contractor
+
 type alias Model =
   { session: Session
+  , email: String
+  , password: String
+  , accountType: AccountType
   }
 
 toSession: Model -> Session
