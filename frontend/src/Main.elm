@@ -110,10 +110,10 @@ changeRouteTo maybeRoute model =
     in
     case maybeRoute of
         Router.Home ->
-            ( model, Cmd.none )
+            ( Home session, Cmd.none )
 
         Router.Why ->
-            ( model, Cmd.none )
+            ( Why session, Cmd.none )
 
         Router.Login ->
             Login.init session
