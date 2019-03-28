@@ -1,4 +1,4 @@
-module Page.Login exposing (Model, asEmailIn, asPasswordIn, view, init, toSession, Msg)
+module Page.Login exposing (Model, asEmailIn, asPasswordIn, view, init, toSession, Msg, update)
 
 import Browser
 import Html exposing (Html, button, div, text, input, label, h3, p, figure, section, img, form, a, span, i)
@@ -35,7 +35,7 @@ asPasswordIn: Model -> String -> Model
 asPasswordIn d s =
   { d | password = s }
 
-view : Model -> { title : String, content : Html msg }
+view : Model -> { title : String, content : Html Msg }
 view model =
     { title = "Login"
     ,  content = div [ class "columns is-vcentered" ]
@@ -47,9 +47,9 @@ view model =
                 ]
             , div [ class "field" ]
                 [ label [ class "label" ]
-                    [ text "Username" ]
+                    [ text "Email" ]
                 , div [ class "control has-icons-right" ]
-                    [ input [ class "input", type_ "text" ]
+                    [ input [ class "input", type_ "text", onInput EnteredEmail, value model.email ]
                         []
                     , span [ class "icon is-small is-right" ]
                         [ i [ class "fa fa-user" ]
@@ -61,7 +61,7 @@ view model =
                 [ label [ class "label" ]
                     [ text "Password" ]
                 , div [ class "control has-icons-right" ]
-                    [ input [ class "input", type_ "password" ]
+                    [ input [ class "input", type_ "password", onInput EnteredPassword, value model.password ]
                         []
                     , span [ class "icon is-small is-right" ]
                         [ i [ class "fa fa-key" ]
@@ -83,6 +83,15 @@ view model =
         []
     ]
   }
+
+update : Msg -> Model -> ( Model, Cmd Msg )
+update msg model =
+    case msg of
+      EnteredEmail email ->
+        ({model | email = email}, Cmd.none)
+      EnteredPassword password ->
+        ({model | password = password}, Cmd.none)
+      SubmittedForm -> Debug.todo "Add submitted form logic"
 
 -- Update
 type Msg

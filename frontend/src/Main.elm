@@ -143,14 +143,20 @@ update msg model =
 
     (GotHomeMsg homeMsg, Home home ) ->
       ( Home (toSession model), Cmd.none )
+
     (GotWhyMsg whyMsg, Why why) ->
       ( Why (toSession model), Cmd.none )
+
     (GotLoginMsg loginMsg, Login login) ->
-      ( Login login, Cmd.none )
+      Login.update loginMsg login
+        |> updateWith Login GotLoginMsg model
+
     (GotSignupMsg signupMsg, SignUp signup) ->
       ( SignUp signup, Cmd.none )
+
     (GotContractsMsg contractsMsg, Contracts contracts) ->
       ( Contracts contracts, Cmd.none )
+      
     (GotContractMsg contractMsg, Contract contract) -> 
       ( Contract contract, Cmd.none )
     (GotProfileMsg profileMsg, Profile profile) ->
@@ -182,11 +188,20 @@ view model =
       ]
   }
 
-viewBody: Model -> Html msg
+viewBody: Model -> Html Msg
 viewBody model =
+  let 
+    viewPage page toMsg config =
+            let
+                { title, content } = (page config)
+            in
+            { title = title
+            , body = (Html.map toMsg) content
+            }
+  in
   case model of
     Login loginModel ->
-      (Login.view loginModel).content
+      (viewPage Login.view GotLoginMsg loginModel).body
     Home session ->
       (Home.view).content
     Why session ->
