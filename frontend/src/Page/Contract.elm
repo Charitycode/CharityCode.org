@@ -1,11 +1,13 @@
-module Page.Contract exposing (Model, toSession, Msg, init)
+module Page.Contract exposing (Model, Msg, init, toSession)
 
 import Session exposing (Session)
 
+
 type alias Model =
-  { session: Session,
-    id: Int
-  }
+    { session : Session
+    , id : Int
+    }
+
 
 init : Session -> Int -> ( Model, Cmd msg )
 init session id =
@@ -14,9 +16,13 @@ init session id =
       }
     , Cmd.none
     )
-toSession: Model -> Session
-toSession model = model.session
 
-type Msg 
-  = Nothing
-  | Something
+
+toSession : Model -> Session
+toSession model =
+    model.session
+
+
+type Msg
+    = Nothing
+    | Something

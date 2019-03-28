@@ -1,15 +1,18 @@
-module Page.Profile exposing (Msg, init, Model, toSession)
+module Page.Profile exposing (Model, Msg, init, toSession)
 
 import Session exposing (Session)
 
-toSession: Model -> Session
-toSession model
-  = model.session
+
+toSession : Model -> Session
+toSession model =
+    model.session
+
 
 type alias Model =
-  { session: Session,
-    id: String
-  }
+    { session : Session
+    , id : String
+    }
+
 
 init : Session -> String -> ( Model, Cmd msg )
 init session id =
@@ -19,6 +22,7 @@ init session id =
     , Cmd.none
     )
 
-type Msg 
-  = Nothing
-  | Something
+
+type Msg
+    = Nothing
+    | Something
