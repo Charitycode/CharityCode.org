@@ -26,13 +26,25 @@ toSession model =
     model.session
 
 
-view : Model -> {title : String, content: Html Msg}
+view : Model -> { title : String, content : Html Msg }
 view model =
     { title = "Login"
     , content =
         div [ class "section" ]
             [ div [ class "container" ]
-                [ text "tbd" ]
+                [ div [ class "card" ]
+                    [ div [ class "card-content" ]
+                        [ div [ class "cc-heading" ]
+                            [ div [ class "title" ]
+                                [ text "model.title" ]
+                            , div [ class "subtitle" ]
+                                [ text "model.organization" ]
+                            ]
+                        , div [ class "content" ]
+                            [ text "description?" ]
+                        ]
+                    ]
+                ]
             ]
     }
 
