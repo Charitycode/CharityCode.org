@@ -1,3 +1,5 @@
+$primary: #ff7f50;
+
 @import '~bulma/bulma.sass';
 
 ul.is-unstyled {
@@ -47,4 +49,8 @@ ul.is-unstyled {
 
   nav + .is-fullvh {
       height: 90vh;
+  }
+
+  .cc-content {
+    margin-top: 40px;
   }
