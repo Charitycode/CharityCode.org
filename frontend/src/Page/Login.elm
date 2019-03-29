@@ -5,7 +5,7 @@ import Html exposing (Html, a, button, div, figure, form, h3, i, img, input, lab
 import Html.Attributes exposing (attribute, class, href, placeholder, src, type_, value)
 import Html.Events exposing (onClick, onInput)
 import Http
-import Session exposing (Session)
+import Session exposing (Session, navKey)
 
 
 init : Session -> ( Model, Cmd msg )
@@ -76,7 +76,7 @@ view model =
                             ]
                         ]
                     , div [ class "has-text-centered" ]
-                        [ a [ class "button is-vcentered is-primary is-outlined" ]
+                        [ button [ class "button is-vcentered is-primary is-outlined", onClick SubmittedForm ]
                             [ text "Login" ]
                         ]
                     , div [ class "has-text-centered" ]
@@ -101,7 +101,7 @@ update msg model =
             ( { model | password = password }, Cmd.none )
 
         SubmittedForm ->
-            Debug.todo "Add submitted form logic"
+            ( { model | password = "", email = "", session = (Session.LoggedIn (navKey model.session))}, Cmd.none)
 
 
 

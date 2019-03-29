@@ -24,7 +24,7 @@ routeParser =
         , map Why (s "why")
         , map SignUp (s "signup")
         , map Contracts (s "contracts")
-        , map Contract (s "contract" </> int)
+        , map Contract (s "contracts" </> int)
         , map Profile (s "profile" </> string)
         ]
 

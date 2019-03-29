@@ -231,5 +231,8 @@ viewBody model =
         Contracts contractsModel ->
             Contracts.view.content
 
+        Contract contractModel ->
+            (viewPage Contract.view GotContractMsg contractModel).body
+
         _ ->
             div [ class "section" ] [ text "Nothing to see here!" ]
