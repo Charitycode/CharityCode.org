@@ -33,7 +33,7 @@ view model =
         div [ class "section" ]
             [ div [ class "container" ]
                 [ div [ class "card" ]
-                    [ div [ class "card-content" ]
+                    [ div [ class "card-content is-clearfix" ]
                         [ div [ class "cc-heading" ]
                             [ h1 [ class "title" ]
                                 [ text "Fix our website!" ]
@@ -47,6 +47,8 @@ view model =
                             [ h3 [] [ text "Description" ]
                             , p [] [ text lorem ]
                             ]
+                        , div [ class "is-pulled-right" ]
+                            [ button [ class "button is-primary", onClick (SignUp model.id) ] [text "Sign Up"]]
                         ]
                     ]
                 ]
@@ -57,6 +59,7 @@ view model =
 type Msg
     = Nothing
     | Something
+    | SignUp Int
 
 
 lorem =
