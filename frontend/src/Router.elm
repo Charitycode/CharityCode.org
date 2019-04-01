@@ -13,6 +13,7 @@ type Route
     | Contracts
     | Contract Int
     | Profile String
+    | Organization Int
     | NotFound
 
 
@@ -26,6 +27,7 @@ routeParser =
         , map Contracts (s "contracts")
         , map Contract (s "contracts" </> int)
         , map Profile (s "profile" </> string)
+        , map Organization (s "organization" </> int)
         ]
 
 

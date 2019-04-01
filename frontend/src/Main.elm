@@ -10,6 +10,7 @@ import Page.Contract as Contract
 import Page.Contracts as Contracts
 import Page.Home as Home
 import Page.Login as Login
+import Page.Organization as Organization
 import Page.Profile as Profile
 import Page.Signup as Signup
 import Page.Why as Why
@@ -46,6 +47,7 @@ type Model
     | Contracts Contracts.Model
     | Contract Contract.Model
     | Profile Profile.Model
+    | Organization Organization.Model
 
 
 init : () -> Url.Url -> Nav.Key -> ( Model, Cmd Msg )
@@ -67,6 +69,7 @@ type Msg
     | GotContractMsg Contract.Msg
     | GotProfileMsg Profile.Msg
     | GotWhyMsg Why.Msg
+    | GotOrganizationMsg Organization.Msg
     | NotFoundMsg
 
 
@@ -93,6 +96,9 @@ toSession page =
 
         Profile profile ->
             Profile.toSession profile
+
+        Organization org ->
+            Organization.toSession org
 
 
 updateWith : (subModel -> Model) -> (subMsg -> Msg) -> Model -> ( subModel, Cmd subMsg ) -> ( Model, Cmd Msg )
@@ -135,6 +141,10 @@ changeRouteTo maybeRoute model =
             Profile.init session id
                 |> updateWith Profile GotProfileMsg model
 
+        Router.Organization id ->
+            Organization.init session id
+                |> updateWith Organization GotOrganizationMsg model
+
         Router.NotFound ->
             ( Home (toSession model), Cmd.none )
 
@@ -174,6 +184,9 @@ update msg model =
 
         ( GotProfileMsg profileMsg, Profile profile ) ->
             ( Profile profile, Cmd.none )
+
+        ( GotOrganizationMsg organizationMsg, Organization organization) ->
+            ( Organization organization, Cmd.none)
 
         _ ->
             ( Home (toSession model), Cmd.none )
@@ -233,6 +246,9 @@ viewBody model =
 
         Contract contractModel ->
             (viewPage Contract.view GotContractMsg contractModel).body
+
+        Organization orgModel ->
+            (viewPage Organization.view GotOrganizationMsg orgModel).body
 
         _ ->
             div [ class "section" ] [ text "Nothing to see here!" ]

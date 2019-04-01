@@ -28,7 +28,7 @@ toSession model =
 
 view : Model -> { title : String, content : Html Msg }
 view model =
-    { title = "Login"
+    { title = "Contract"
     , content =
         div [ class "section" ]
             [ div [ class "container" ]
