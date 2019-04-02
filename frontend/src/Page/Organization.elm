@@ -1,10 +1,10 @@
 module Page.Organization exposing (Model, Msg, init, toSession, view)
 
 import Html exposing (Html, a, button, div, figure, form, h1, h2, h3, i, img, input, label, p, section, span, text)
-import Html.Attributes exposing (attribute, class, href, placeholder, src, type_, value)
+import Html.Attributes exposing (attribute, class, href, placeholder, src, type_, value, style, target)
 import Html.Events exposing (onClick, onInput)
-import Session exposing (Session)
 import Markdown as Markdown
+import Session exposing (Session)
 
 
 toSession : Model -> Session
@@ -38,21 +38,34 @@ view model =
                         [ div [ class "card" ]
                             [ div [ class "card-content" ]
                                 [ div [ class "media" ]
-                                    [ div [ class "media-left" ] 
-                                        [ figure [ class  "image is-48x48x" ] 
-                                            [ img [src "https://bulma.io/images/placeholders/96x96.png"] []
+                                    [ div [ class "media-left" ]
+                                        [ figure [ class "image is-48x48x" ]
+                                            [ img [ src "https://bulma.io/images/placeholders/96x96.png" ] []
                                             ]
                                         ]
                                     , div [ class "media-content" ]
                                         [ p [ class "title is-4" ] [ text "Humane Society" ]
-                                        , p [ class "subtitle is-6" ] [ text "#KYHumaneSociety"]
-                                        , p [ class "subtitle is-6 has-text-grey" ] [ text "43 Employees"]
+                                        , p [ class "subtitle is-6" ] [ text "#KYHumaneSociety" ]
+                                        , p [ class "subtitle is-6 has-text-grey" ] [ text "43 Employees" ]
+                                        ]
+                                    ]
+                                ]
+                            ]
+                        , div [ class "card" ]
+                            [ div [ class "card-content" ]
+                                [ div [ class "media" ]
+                                    [ div [ class "media-content" ]
+                                        [ p [ class "title is-4" ] [ text "Our Links" ]
+                                        , p [ class "subtitle is-6" ] [ text "Our Website: ", a [ href "https://www.kyhumane.org/" ] [text "KYHumane.org"] ]
+                                        , linkIcon "https://www.instagram.com/kyhumane/" "instagram"
+                                        , linkIcon "https://www.facebook.com/kyhumane" "facebook"
+                                        , linkIcon "https://twitter.com/kyhumane" "twitter"
                                         ]
                                     ]
                                 ]
                             ]
                         ]
-                    , div [ class "column is-two-thirds"] 
+                    , div [ class "column is-two-thirds" ]
                         [ div [ class "card" ]
                             [ div [ class "card-content" ] [ content filler ] ]
                         ]
@@ -61,11 +74,17 @@ view model =
             ]
     }
 
-content : String -> Html msg
-content s=
-   Markdown.toHtml [class "content"] s
+linkIcon : String -> String -> Html msg
+linkIcon link icon =
+    a [href link, style "font-size" "36px", style "padding" "10px", target "_blank"] [i [class ("fab fa-"++icon)] []]
 
-filler = """
+content : String -> Html msg
+content s =
+    Markdown.toHtml [ class "content" ] s
+
+
+filler =
+    """
 # About Us
 The Kentucky Humane Society (KHS), located in Louisville, KY, is a private, nonprofit organization that is Kentucky's largest pet adoption agency. KHS is also the state's oldest animal welfare organization, founded in 1884.
 
@@ -88,6 +107,7 @@ Core values are the fundamental beliefs that our staff live by every day. These 
 - Inspire Others: Encouraging collaboration, perseverance and dedication for our mission.
 - Ever-Evolving: Leading the change our communities need.
 """
+
 
 type Msg
     = Nothing

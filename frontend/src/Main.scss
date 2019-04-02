@@ -58,3 +58,7 @@ ul.is-unstyled {
   .signup .select {
     margin-top: -5px;
   }
+
+.card + .card {
+  margin-top: 20px;
+}
