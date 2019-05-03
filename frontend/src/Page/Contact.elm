@@ -48,8 +48,8 @@ view model =
                         text "We love hearing from our users and improving ourselves based on their feedback."
                     ]
                 , form [ class "form", onSubmit SubmittedForm ]
-                    [ viewFormInput "Email" "Your E-Mail" "fa fa-user" EnteredEmail model.email
-                    , viewFormInput "Name" "Your Name" "fa fa-key" EnteredName model.name
+                    [ viewFormInput "Email" "Your E-Mail" "fa fa-envelope" EnteredEmail model.email
+                    , viewFormInput "Name" "Your Name" "fa fa-user" EnteredName model.name
                     , viewFormTextarea "Message" "What's on your mind?" EnteredMessage model.message
                     , button [ class "button", type_ "submit" ]
                         [ text "Submit"
