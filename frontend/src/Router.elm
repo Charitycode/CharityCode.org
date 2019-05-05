@@ -10,6 +10,7 @@ type Route
     | Why
     | Login
     | SignUp
+    | Contact
     | Contracts
     | Contract Int
     | Profile String
@@ -24,6 +25,7 @@ routeParser =
         , map Login (s "login")
         , map Why (s "why")
         , map SignUp (s "signup")
+        , map Contact (s "contact")
         , map Contracts (s "contracts")
         , map Contract (s "contracts" </> int)
         , map Profile (s "profile" </> string)

@@ -13,6 +13,7 @@ import Page.Login as Login
 import Page.Organization as Organization
 import Page.Profile as Profile
 import Page.Signup as Signup
+import Page.Contact as Contact
 import Page.Why as Why
 import Router exposing (Route(..), fromUrl, routeParser)
 import Session exposing (Session(..), navKey)
@@ -43,6 +44,7 @@ type Model
     = Home Session
     | Why Session
     | SignUp Signup.Model
+    | Contact Contact.Model
     | Login Login.Model
     | Contracts Contracts.Model
     | Contract Contract.Model
@@ -64,6 +66,7 @@ type Msg
     | UrlChanged Url.Url
     | GotLoginMsg Login.Msg
     | GotSignupMsg Signup.Msg
+    | GotContactMsg Contact.Msg
     | GotHomeMsg Home.Msg
     | GotContractsMsg Contracts.Msg
     | GotContractMsg Contract.Msg
@@ -84,6 +87,9 @@ toSession page =
 
         SignUp signup ->
             Signup.toSession signup
+
+        Contact contact ->
+            Contact.toSession contact
 
         Contract contract ->
             Contract.toSession contract
@@ -128,6 +134,10 @@ changeRouteTo maybeRoute model =
         Router.SignUp ->
             Signup.init session
                 |> updateWith SignUp GotSignupMsg model
+        
+        Router.Contact ->
+            Contact.init session
+                |> updateWith Contact GotContactMsg model
 
         Router.Contracts ->
             Contracts.init session
@@ -175,6 +185,10 @@ update msg model =
 
         ( GotSignupMsg signupMsg, SignUp signup ) ->
             ( SignUp signup, Cmd.none )
+
+        ( GotContactMsg contactMsg, Contact contact ) ->
+            Contact.update contactMsg contact
+                |> updateWith Contact GotContactMsg model
 
         ( GotContractsMsg contractsMsg, Contracts contracts ) ->
             ( Contracts contracts, Cmd.none )
@@ -240,6 +254,9 @@ viewBody model =
 
         SignUp signupModel ->
             (Signup.view signupModel).content
+
+        Contact contactModel ->
+            (viewPage Contact.view GotContactMsg contactModel).body
 
         Contracts contractsModel ->
             Contracts.view.content
