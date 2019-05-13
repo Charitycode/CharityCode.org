@@ -1,5 +1,6 @@
 module Footer exposing (view)
-import Html exposing (Html, div, text, ul, li, footer)
+import Html exposing (Html, div, text, ul, li, footer, a)
+import Html.Attributes exposing (href)
 import Html.Attributes exposing (class)
 
 view : Html msg
@@ -9,7 +10,8 @@ view =
         [ div [ class "column" ]
             [ ul [ class "is-unstyled" ]
                 [ li [ class "has-text-weight-bold" ] [ text "About" ]
-                , li [] [ text "About Us" ]
+                , li [] [a [ href "/about", class "navbar-item" ]
+                            [ text "About" ]]
                 , li [] [ text "Privacy Policy" ]
                 ]
             ]
