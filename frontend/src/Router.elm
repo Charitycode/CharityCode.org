@@ -8,6 +8,7 @@ import Url.Parser as Parser exposing ((</>), Parser, int, map, oneOf, s, string)
 type Route
     = Home
     | Why
+    | Privacy
     | Login
     | SignUp
     | Contact
@@ -24,6 +25,7 @@ routeParser =
         [ map Home (s "home")
         , map Login (s "login")
         , map Why (s "why")
+        , map Privacy (s "privacy")
         , map SignUp (s "signup")
         , map Contact (s "contact")
         , map Contracts (s "contracts")

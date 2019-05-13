@@ -6,14 +6,15 @@ import Footer as Footer
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import NavBar as NavBar
+import Page.Contact as Contact
 import Page.Contract as Contract
 import Page.Contracts as Contracts
 import Page.Home as Home
 import Page.Login as Login
 import Page.Organization as Organization
+import Page.Privacy as Privacy
 import Page.Profile as Profile
 import Page.Signup as Signup
-import Page.Contact as Contact
 import Page.Why as Why
 import Router exposing (Route(..), fromUrl, routeParser)
 import Session exposing (Session(..), navKey)
@@ -43,6 +44,7 @@ main =
 type Model
     = Home Session
     | Why Session
+    | Privacy Session
     | SignUp Signup.Model
     | Contact Contact.Model
     | Login Login.Model
@@ -72,6 +74,7 @@ type Msg
     | GotContractMsg Contract.Msg
     | GotProfileMsg Profile.Msg
     | GotWhyMsg Why.Msg
+    | GotPrivacyMsg Privacy.Msg
     | GotOrganizationMsg Organization.Msg
     | NotFoundMsg
 
@@ -81,6 +84,9 @@ toSession page =
     case page of
         Home home ->
             home
+
+        Privacy session ->
+            session
 
         Login login ->
             Login.toSession login
@@ -127,6 +133,9 @@ changeRouteTo maybeRoute model =
         Router.Why ->
             ( Why session, Cmd.none )
 
+        Router.Privacy ->
+            ( Privacy session, Cmd.none )
+
         Router.Login ->
             Login.init session
                 |> updateWith Login GotLoginMsg model
@@ -134,7 +143,7 @@ changeRouteTo maybeRoute model =
         Router.SignUp ->
             Signup.init session
                 |> updateWith SignUp GotSignupMsg model
-        
+
         Router.Contact ->
             Contact.init session
                 |> updateWith Contact GotContactMsg model
@@ -179,6 +188,9 @@ update msg model =
         ( GotWhyMsg whyMsg, Why why ) ->
             ( Why (toSession model), Cmd.none )
 
+        ( GotPrivacyMsg privacyMsg, Privacy privacy ) ->
+            ( Privacy (toSession model), Cmd.none )
+
         ( GotLoginMsg loginMsg, Login login ) ->
             Login.update loginMsg login
                 |> updateWith Login GotLoginMsg model
@@ -199,8 +211,8 @@ update msg model =
         ( GotProfileMsg profileMsg, Profile profile ) ->
             ( Profile profile, Cmd.none )
 
-        ( GotOrganizationMsg organizationMsg, Organization organization) ->
-            ( Organization organization, Cmd.none)
+        ( GotOrganizationMsg organizationMsg, Organization organization ) ->
+            ( Organization organization, Cmd.none )
 
         _ ->
             ( Home (toSession model), Cmd.none )
@@ -251,6 +263,9 @@ viewBody model =
 
         Why session ->
             Why.view.content
+
+        Privacy session ->
+            Privacy.view.content
 
         SignUp signupModel ->
             (Signup.view signupModel).content
