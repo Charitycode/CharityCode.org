@@ -1,7 +1,6 @@
 module Footer exposing (view)
 import Html exposing (Html, div, text, ul, li, footer, a)
-import Html.Attributes exposing (href)
-import Html.Attributes exposing (class)
+import Html.Attributes exposing (class, href)
 
 view : Html msg
 view =
