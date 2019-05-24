@@ -3,10 +3,12 @@ package controllers
 import javax.inject._
 import play.api._
 import play.api.mvc._
+
 import scala.concurrent.Future
 import dal._
-import scala.concurrent.ExecutionContext.Implicits.global
+import play.api.libs.json.Json
 
+import scala.concurrent.ExecutionContext.Implicits.global
 
 /**
   * This controller creates an `Action` to handle HTTP requests to the
@@ -14,7 +16,8 @@ import scala.concurrent.ExecutionContext.Implicits.global
   */
 @Singleton
 class ContractController @Inject()(cc: ControllerComponents,
-                                   contractRepo: ContractRepo) extends AbstractController(cc) {
+                                   contractRepo: ContractRepo)
+    extends AbstractController(cc) {
 
   /**
     * Create an Action to render an HTML page.
@@ -23,7 +26,10 @@ class ContractController @Inject()(cc: ControllerComponents,
     * will be called when the application receives a `GET` request with
     * a path of `/`.
     */
-  def index() = Action.async { implicit request: Request[AnyContent] =>
-    Future { Ok(views.html.index()) }
+  def index(): Action[AnyContent] = Action.async {
+    implicit request: Request[AnyContent] =>
+      contractRepo.list().map { contracts =>
+        Ok(Json.toJson(contracts))
+      }
   }
 }
