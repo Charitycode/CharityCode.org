@@ -18,8 +18,6 @@ class OrganizationController @Inject()(cc: ControllerComponents) extends Abstrac
     * will be called when the application receives a `GET` request with
     * a path of `/`.
     */
-  def index() = Action { implicit request: Request[AnyContent] =>
-    Ok(views.html.index()) }
   def index(): Action[AnyContent] = Action.async {
     implicit request: Request[AnyContent] =>
       organizationRepo.list().map { organizations =>
