@@ -37,7 +37,7 @@ class OrganizationRepo @Inject()(dbConfigProvider: DatabaseConfigProvider)(impli
 
     def name = column[String]("name")
 
-    def taxId = column[String]("taxID")
+    def taxId = column[String]("tax_id")
 
     def classification = column[String]("classification")
 

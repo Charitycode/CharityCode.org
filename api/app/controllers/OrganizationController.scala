@@ -1,8 +1,11 @@
 package controllers
 
+import dal._
 import javax.inject._
-import play.api._
+import play.api.libs.json.Json
 import play.api.mvc._
+
+import scala.concurrent.ExecutionContext.Implicits.global
 
 /**
   * This controller creates an `Action` to handle HTTP requests to the
@@ -11,7 +14,7 @@ import play.api.mvc._
 @Singleton
 class OrganizationController @Inject()(cc: ControllerComponents,
                                        organizationRepo: OrganizationRepo)
-  extends AbstractController(cc) {
+    extends AbstractController(cc) {
 
   /**
     * Create an Action to render an HTML page.
