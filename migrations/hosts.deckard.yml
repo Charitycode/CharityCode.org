@@ -4,3 +4,4 @@ docker:
   user: dev
   password: dev
   database: dev
+  driver: postgres
