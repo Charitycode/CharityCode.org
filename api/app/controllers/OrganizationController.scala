@@ -9,7 +9,9 @@ import play.api.mvc._
   * application's home page.
   */
 @Singleton
-class OrganizationController @Inject()(cc: ControllerComponents) extends AbstractController(cc) {
+class OrganizationController @Inject()(cc: ControllerComponents,
+                                       organizationRepo: OrganizationRepo)
+  extends AbstractController(cc) {
 
   /**
     * Create an Action to render an HTML page.

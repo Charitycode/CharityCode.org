@@ -5,7 +5,7 @@ import javax.inject.{Inject, Singleton}
 
 import play.api.db.slick.DatabaseConfigProvider
 import slick.jdbc.JdbcProfile
-import models.Contract
+import models.Organization
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -15,7 +15,7 @@ import scala.concurrent.{ExecutionContext, Future}
   * @param dbConfigProvider The Play db config provider. Play will inject this for you.
   */
 @Singleton
-class ContractRepo @Inject()(dbConfigProvider: DatabaseConfigProvider)(implicit ec: ExecutionContext) {
+class OrganizationRepo @Inject()(dbConfigProvider: DatabaseConfigProvider)(implicit ec: ExecutionContext) {
   // We want the JdbcProfile for this provider
   private val dbConfig = dbConfigProvider.get[JdbcProfile]
 
