@@ -67,6 +67,10 @@ class UserRepo @Inject()(dbConfigProvider: DatabaseConfigProvider)(implicit ec: 
     table += user
   }
 
+  def get(id: Long): Future[Option[User]] = db.run {
+    table.filter(_.id === id).result
+  }.map(_.headOption)
+
   /**
     * List all in the database.
     */

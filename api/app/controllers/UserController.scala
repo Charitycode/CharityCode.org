@@ -28,6 +28,19 @@ class UserController @Inject()(cc: ControllerComponents,
       }
   }
 
+  def getUser(id: Long): Action[AnyContent] = Action.async {
+    implicit request: Request[AnyContent] =>
+      userRepo.get(id).map { userOpt: Option[User] =>
+        userOpt match {
+          case Some(user)=>
+            Ok(Json.toJson(user))
+          case None=>
+            NotFound
+        }
+
+      }
+  }
+
   def createUser() = Action.async { implicit request: Request[AnyContent] =>
     case class UserBody(first: String, last: String, email: String, classification: String, phone: String, password: String)
     val form = Form[UserBody] {

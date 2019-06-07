@@ -11,7 +11,7 @@ GET     /contracts/                 controllers.ContractController.index
 GET     /organizations/             controllers.OrganizationController.index
 
 GET     /user/                      controllers.UserController.index
-
+GET     /user/$id<[0-9+]>           controllers.UserController.getUser(id: Long)
 POST    /user/                      controllers.UserController.createUser
 
 # Map static resources from the /public folder to the /assets URL path
