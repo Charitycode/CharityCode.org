@@ -1,11 +1,9 @@
 package controllers
 
-import dal._
 import javax.inject._
-import play.api._
-import play.api.mvc._
 
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 /**
   * This controller creates an `Action` to handle HTTP requests to the
@@ -28,5 +26,39 @@ class UserController @Inject()(cc: ControllerComponents,
       userRepo.list().map { users =>
         Ok(Json.toJson(users))
       }
+  }
+
+  def createUser() = Action.async { implicit request: Request[AnyContent] =>
+    case class UserBody(first: String, last: String, email: String, classification: String, phone: String, password: String)
+    val form = Form[UserBody] {
+      mapping(
+        "first" -> nonEmptyText,
+        "last" -> nonEmptyText,
+        "email" -> email,
+        "classification" -> nonEmptyText,
+        "phone" -> optional(nonEmptyText),
+        "password" -> nonEmptyText
+      )(UserBody.apply)(UserBody.unapply)
+    }
+
+    def failure(_: Form[UserBody]) = Future { BadRequest }
+    def success(_: UserBody) = {
+      userRepo.create(User(
+        first = input.first,
+        last = input.last,
+        email = input.email,
+        classification = input.classification,
+        phone = input.phone,
+        password = input.password,
+        createdAt = None,
+        id = None
+      )).map(id =>
+        Ok(Json.toJson(Map(
+          "id"->id
+        )))
+      )
+    }
+
+    form.bindFromRequest.fold(failure,success)
   }
 }
