@@ -11,7 +11,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 var MODE =
     process.env.npm_lifecycle_event === "prod" ? "production" : "development";
-var withDebug = !process.env["npm_config_nodebug"];
+var withDebug = MODE === "development"
 console.log('\x1b[36m%s\x1b[0m', `** elm-webpack-starter: mode "${MODE}", withDebug: ${withDebug}\n`);
 
 var common = {
@@ -127,7 +127,7 @@ if (MODE === "production") {
             // Minify elm code
             new elmMinify.WebpackPlugin(),
             // Delete everything from /dist directory and report to user
-            new CleanWebpackPlugin(["dist"], {
+            new CleanWebpackPlugin({
                 root: __dirname,
                 exclude: [],
                 verbose: true,
