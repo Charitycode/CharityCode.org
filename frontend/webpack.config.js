@@ -153,7 +153,7 @@ if (MODE === "production") {
                     use: {
                         loader: "elm-webpack-loader",
                         options: {
-                            optimize: true,
+                            optimize: false,
                             // add Elm's debug overlay to output
                             debug: withDebug,
                         }
