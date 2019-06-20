@@ -55,7 +55,7 @@ class UserRepo @Inject()(dbConfigProvider: DatabaseConfigProvider)(implicit ec: 
       */
     def * =
       (first, last, email, classification, phone, password, createdAt, id)
-        .<>((Organization.apply _).tupled, Organization.unapply)
+        .<>((User.apply _).tupled, User.unapply)
   }
 
   /**

@@ -55,7 +55,7 @@ class UserController @Inject()(cc: ControllerComponents,
     }
 
     def failure(_: Form[UserBody]) = Future { BadRequest }
-    def success(_: UserBody) = {
+    def success(input: UserBody) = {
       userRepo.create(User(
         first = input.first,
         last = input.last,
