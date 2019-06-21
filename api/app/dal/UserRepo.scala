@@ -1,6 +1,7 @@
 package dal
 
 import java.sql.Timestamp
+import java.time.Instant
 
 import javax.inject.{Inject, Singleton}
 import models.User
@@ -48,6 +49,8 @@ class UserRepo @Inject()(dbConfigProvider: DatabaseConfigProvider)(
 
     def createdAt = column[Option[Timestamp]]("created_at")
 
+    def lastLogin = column[Option[Timestamp]]("last_login")
+
     /**
       * This is the tables default "projection".
       *
@@ -55,8 +58,17 @@ class UserRepo @Inject()(dbConfigProvider: DatabaseConfigProvider)(
       *
       */
     def * =
-      (first, last, email, classification, phone, password, createdAt, id)
-        .<>((User.apply _).tupled, User.unapply)
+      (
+        first,
+        last,
+        email,
+        classification,
+        phone,
+        password,
+        createdAt,
+        lastLogin,
+        id
+      ).<>((User.apply _).tupled, User.unapply)
   }
 
   /**
@@ -80,4 +92,20 @@ class UserRepo @Inject()(dbConfigProvider: DatabaseConfigProvider)(
   def list(): Future[Seq[User]] = db.run {
     table.result
   }
+
+  def findByEmail(email: String): Future[Option[User]] =
+    db.run {
+        table.filter(_.email === email).result
+      }
+      .map(_.headOption)
+
+  def update(user: User): Future[Int] = db.run {
+    table.filter(_.id === user.id).update(user)
+  }
+
+  def updateLastLogin(user: User): Future[Int] = {
+    val now = Instant.now()
+    update(user.copy(last_login = Some(Timestamp.from(now))))
+  }
+
 }

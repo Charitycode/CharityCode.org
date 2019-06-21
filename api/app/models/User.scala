@@ -30,5 +30,6 @@ case class User(
 //  git_url: String,
   password: String,
   created_at: Option[Timestamp] = Option(Timestamp.valueOf(LocalDateTime.now)),
+  last_login: Option[Timestamp] = None,
   id: Option[Long] = None
 )
