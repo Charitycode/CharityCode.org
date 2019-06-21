@@ -10,10 +10,10 @@ import play.api.mvc.{
   ControllerComponents,
   Request
 }
-
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.libs.json.Json
+import services.AuthService
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -82,7 +82,7 @@ class UserController @Inject()(cc: ControllerComponents, userRepo: UserRepo)
               email = input.email,
               classification = input.classification,
               phone = input.phone,
-              password = input.password,
+              password = AuthService.encodePassword(input.password),
               created_at = None,
               id = None
             )
