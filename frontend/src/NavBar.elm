@@ -17,7 +17,7 @@ view model =
     nav [ attribute "aria-label" "main navigation", class "navbar", attribute "role" "navigation" ]
         [ div [ class "navbar-brand" ]
             [ a [ class "navbar-item", href "/home" ]
-                [ img [ attribute "height" "28", src "https://bulma.io/images/bulma-logo.png", attribute "width" "112" ]
+                [ img [ src "/charity-code-full-logo.png" ]
                     []
                 ]
             , a [ attribute "aria-expanded" "false", attribute "aria-label" "menu", class "navbar-burger burger", attribute "data-target" "navbarBasicExample", attribute "role" "button" ]
