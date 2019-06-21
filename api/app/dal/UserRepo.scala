@@ -1,11 +1,11 @@
 package dal
 
 import java.sql.Timestamp
-import javax.inject.{Inject, Singleton}
 
+import javax.inject.{Inject, Singleton}
+import models.User
 import play.api.db.slick.DatabaseConfigProvider
 import slick.jdbc.JdbcProfile
-import models.Organization
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -15,7 +15,9 @@ import scala.concurrent.{ExecutionContext, Future}
   * @param dbConfigProvider The Play db config provider. Play will inject this for you.
   */
 @Singleton
-class UserRepo @Inject()(dbConfigProvider: DatabaseConfigProvider)(implicit ec: ExecutionContext) {
+class UserRepo @Inject()(dbConfigProvider: DatabaseConfigProvider)(
+  implicit ec: ExecutionContext
+) {
   // We want the JdbcProfile for this provider
   private val dbConfig = dbConfigProvider.get[JdbcProfile]
 
@@ -27,8 +29,7 @@ class UserRepo @Inject()(dbConfigProvider: DatabaseConfigProvider)(implicit ec: 
   /**
     * Here we define the table. It will have a name of hit
     */
-  private class UserTable(tag: Tag)
-    extends Table[User](tag, "users") {
+  private class UserTable(tag: Tag) extends Table[User](tag, "users") {
 
     /** The ID column, which is the primary key, and auto incremented */
     def id = column[Option[Long]]("id", O.PrimaryKey, O.AutoInc)
@@ -41,7 +42,7 @@ class UserRepo @Inject()(dbConfigProvider: DatabaseConfigProvider)(implicit ec: 
 
     def classification = column[String]("classification")
 
-    def phone = column[String]("phone")
+    def phone = column[Option[String]]("phone")
 
     def password = column[String]("password")
 
@@ -67,9 +68,11 @@ class UserRepo @Inject()(dbConfigProvider: DatabaseConfigProvider)(implicit ec: 
     table += user
   }
 
-  def get(id: Long): Future[Option[User]] = db.run {
-    table.filter(_.id === id).result
-  }.map(_.headOption)
+  def get(id: Long): Future[Option[User]] =
+    db.run {
+        table.filter(_.id === id).result
+      }
+      .map(_.headOption)
 
   /**
     * List all in the database.

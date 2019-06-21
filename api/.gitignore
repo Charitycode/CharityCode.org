@@ -8,3 +8,4 @@ target
 .g8/
 /RUNNING_PID
 mounts/
+.gradle/

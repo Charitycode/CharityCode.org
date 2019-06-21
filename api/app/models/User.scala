@@ -15,18 +15,20 @@ object User {
     }
     def writes(created_at: Timestamp) = JsString(format.format(created_at))
   }
-  implicit val contractFormat = Json.format[Contract]
+  implicit val userFormat = Json.format[User]
 
   implicit val time = Timestamp.valueOf(LocalDateTime.now)
 }
 
-case class User(first: String,
-                last: String,
-                email: String,
-                classification: String,
-                phone: String,
-//                web_url: String,
-//                git_url: String,
-                password: String,
-                created_at: Option[Timestamp] = Option(Timestamp.valueOf(LocalDateTime.now)),
-                id: Option[Long] = None)
+case class User(
+  first: String,
+  last: String,
+  email: String,
+  classification: String,
+  phone: Option[String],
+//  web_url: String,
+//  git_url: String,
+  password: String,
+  created_at: Option[Timestamp] = Option(Timestamp.valueOf(LocalDateTime.now)),
+  id: Option[Long] = None
+)
