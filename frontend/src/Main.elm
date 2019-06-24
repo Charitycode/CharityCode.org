@@ -203,7 +203,8 @@ update msg model =
                 |> updateWith Contact GotContactMsg model
 
         ( GotContractsMsg contractsMsg, Contracts contracts ) ->
-            ( Contracts contracts, Cmd.none )
+            Contracts.update contractsMsg contracts
+                |> updateWith Contracts GotContractsMsg model
 
         ( GotContractMsg contractMsg, Contract contract ) ->
             ( Contract contract, Cmd.none )
@@ -274,7 +275,7 @@ viewBody model =
             (viewPage Contact.view GotContactMsg contactModel).body
 
         Contracts contractsModel ->
-            Contracts.view.content
+            (viewPage Contracts.view GotContractsMsg contractsModel).body
 
         Contract contractModel ->
             (viewPage Contract.view GotContractMsg contractModel).body
