@@ -20,7 +20,7 @@ view =
         , header "Contracts?"
         , body "We thought it was a better name than job-posting, but really, its just a fancy name for \"help wanted\" ads. If there's any actual contractual obligation, that's determined by the Nonprofit and the helper!"
         , header "Do I get paid?"
-        , body "Maybe! It depeonds on the contract and the nonprofit! Some nonprofits are able and willing to pay for their help. Each contract has a field for compensation and you can search for contracts with compensation, if thats what you're looking for. We won't judge!"
+        , body "Maybe! It depends on the contract and the nonprofit! Some nonprofits are able and willing to pay for their help. Each contract has a field for compensation and you can search for contracts with compensation, if thats what you're looking for. We won't judge!"
         , header "Do you get paid?"
         , body "Nope. We don't run transactions or process payments so we cant take a cut. Right now, we're doing this just to help out. However, if you find this useful, please consider helping by contributing tech help or donating."
         , header "I'm a student. Can I help?"
