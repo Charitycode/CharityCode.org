@@ -66,3 +66,11 @@ ul.is-unstyled {
 .navbar-item img {
   max-height: 4rem;
 }
+
+.footer, .footer a {
+  background: #333;
+  color: white !important;
+  &.navbar-item:hover {
+    background: #ff7f50;
+  }
+}

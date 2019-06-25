@@ -7,24 +7,18 @@ import Html.Attributes exposing (class, href)
 view : Html msg
 view =
     footer [ class "footer" ]
-        [ div [ class "content columns has-background-light" ]
+        [ div [ class "content columns" ]
             [ div [ class "column" ]
                 [ ul [ class "is-unstyled" ]
                     [ li [ class "has-text-weight-bold" ] [ text "About" ]
-                    , li []
-                        [ a [ href "/about", class "navbar-item" ]
-                            [ text "About" ]
-                        ]
-                    , li []
-                        [ a [ href "/privacy", class "navbar-item" ]
-                            [ text "Privacy Policy" ]
-                        ]
+                    , li [] [ footerLink "About" "/about" ]
+                    , li [] [ footerLink "Privacy Policy" "/privacy"]
                     ]
                 ]
             , div [ class "column" ]
                 [ ul [ class "is-unstyled" ]
                     [ li [ class "has-text-weight-bold" ] [ text "Support" ]
-                    , li [] [ text "File an issue" ]
+                    , li [] [ footerLink "File an issue" "/report"]
                     ]
                 ]
             , div [ class "column" ]
@@ -35,3 +29,9 @@ view =
                 ]
             ]
         ]
+
+
+footerLink: String -> String -> Html msg
+footerLink linkText linkUrl =
+     a [ href linkUrl, class "navbar-item" ]
+        [ text linkText ]
