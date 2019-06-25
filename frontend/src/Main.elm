@@ -196,7 +196,8 @@ update msg model =
                 |> updateWith Login GotLoginMsg model
 
         ( GotSignupMsg signupMsg, SignUp signup ) ->
-            ( SignUp signup, Cmd.none )
+            Signup.update signupMsg signup
+                |> updateWith SignUp GotSignupMsg model
 
         ( GotContactMsg contactMsg, Contact contact ) ->
             Contact.update contactMsg contact
@@ -269,7 +270,7 @@ viewBody model =
             Privacy.view.content
 
         SignUp signupModel ->
-            (Signup.view signupModel).content
+            (viewPage Signup.view GotSignupMsg signupModel).body
 
         Contact contactModel ->
             (viewPage Contact.view GotContactMsg contactModel).body
