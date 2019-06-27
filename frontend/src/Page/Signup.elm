@@ -74,6 +74,9 @@ view model =
                                     ]
                                 ]
                             ]
+                        , h2 [ class "is-size-4" ]
+                            [ text ("What is a " ++ accountTypeAsString model ++ "?") ]
+                        , p [] [ text (getAccountTypeDescription model) ]
                         ]
                     , div [ class "column" ]
                         [ h2 [ class "is-size-3" ] [ text "Sign up" ], 
@@ -86,6 +89,22 @@ view model =
                 ]
             ]
     }
+
+getAccountTypeDescription : Model -> String
+getAccountTypeDescription m =
+    case m.accountType of
+        Specialist ->
+            "A specialist is a programmer, designer, marketing person, or just an individual with some skill that can be of value to nonprofits."
+        Organization ->
+            "A nonprofit is a specific type of organization that is focused on running business that gives back to the community or helps those in need."
+
+accountTypeAsString : Model -> String
+accountTypeAsString m =
+    case m.accountType of
+        Specialist ->
+            "Specialist"
+        Organization ->
+            "Nonprofit"
 
 organizationForm : Model -> Html Msg
 organizationForm model =
