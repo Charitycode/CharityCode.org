@@ -13,9 +13,12 @@ init session =
     ( { session = session
       , email = ""
       , password = ""
-      , accountType = Contractor
+      , accountType = Specialist
       , firstName = ""
       , lastName = ""
+      , organizationName = ""
+      , ein = ""
+      , taxId = ""
       }
     , Cmd.none
     )
@@ -23,7 +26,7 @@ init session =
 
 type AccountType
     = Organization
-    | Contractor
+    | Specialist
 
 
 type alias Model =
@@ -33,6 +36,9 @@ type alias Model =
     , accountType : AccountType
     , firstName : String
     , lastName : String
+    , organizationName : String
+    , ein : String
+    , taxId : String
     }
 
 
@@ -58,7 +64,7 @@ view model =
                             , span [ class "field" ]
                                 [ span [ class "control" ]
                                     [ div [ class "select is-large" ]
-                                        [ select []
+                                        [ select [ onInput SetAccountType ]
                                             [ option []
                                                 [ text "Specialist" ]
                                             , option []
@@ -70,11 +76,44 @@ view model =
                             ]
                         ]
                     , div [ class "column" ]
-                        [ h2 [ class "is-size-3" ] [ text "Sign up" ], specialistForm model ]
+                        [ h2 [ class "is-size-3" ] [ text "Sign up" ], 
+                        case model.accountType of
+                            Organization ->
+                                organizationForm model
+                            Specialist ->
+                                specialistForm model ]
                     ]
                 ]
             ]
     }
+
+organizationForm : Model -> Html Msg
+organizationForm model =
+    form []
+        [ textfield "Organization Name" "text" model.organizationName "building" "Awesome Charity Name!" SetOrganizationName
+        , textfield "Organization EIN" "text" model.ein "certificate" "12345689" SetEIN
+        , textfield "Tax ID" "text" model.taxId "clipboard" "123456789" SetTaxId
+        , textfield "Admin Email" "email" model.email "envelope" "you@thatoneplace.com" SetEmail
+        , textfield "Admin Password" "password" model.password "key" "Keep it secret, keep it safe." SetPassword
+        , div [ class "field" ]
+            [ div [ class "control" ]
+                [ label [ class "checkbox" ]
+                    [ input [ type_ "checkbox" ]
+                        []
+                    , text " I agree to the "
+                    , a [ href "#" ]
+                        [ text "terms and conditions" ]
+                    ]
+                ]
+            ]
+        , div [ class "field is-grouped" ]
+            [ div [ class "control" ]
+                [ button [ class "button is-link" ]
+                    [ text "Submit" ]
+                ]
+            ]
+        ]
+
 
 
 specialistForm : Model -> Html Msg
@@ -109,13 +148,16 @@ textfield inputLabel inputType inputValue icon inputPlaceholder toMsg =
     div [ class "field" ]
             [ label [ class "label" ]
                 [ text inputLabel ]
-            , div [ class "control has-icons-left has-icons-right" ]
+            , div [ class "control" ]
                 [ input [ class "input", placeholder inputPlaceholder, type_ inputType, value inputValue, onInput toMsg ]
                     []
-                , span [ class "icon is-small is-left" ]
-                    [ i [ class ("fas fa-" ++ icon) ]
-                        []
-                    ]
+                -- Unfortunately, this currently breaks some stuff with elm for some reason?
+                -- might be class related on the SVG that gets pulled in
+                -- span [ class "icon is-small is-left" ]
+                --     [ i [ class ("fas fa-" ++ icon) ]
+                --         []
+                --     ]
+                -- ]
                 ]
             ]
 
@@ -124,6 +166,10 @@ type Msg
     | SetLastName String
     | SetPassword String
     | SetEmail String
+    | SetOrganizationName String
+    | SetEIN String
+    | SetTaxId String
+    | SetAccountType String
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -140,3 +186,19 @@ update msg model =
 
         SetEmail email ->
             ( { model | email = email }, Cmd.none )
+
+        SetOrganizationName name ->
+            ( {model | organizationName = name}, Cmd.none ) 
+
+        SetEIN name ->
+            ( {model | ein = name}, Cmd.none ) 
+
+        SetTaxId name ->
+            ( {model | taxId = name}, Cmd.none ) 
+
+        SetAccountType accountType ->
+            case accountType of
+                "Specialist" ->
+                    ( {model | accountType = Specialist}, Cmd.none ) 
+                _ ->
+                    ( {model | accountType = Organization}, Cmd.none ) 
