@@ -94,7 +94,7 @@ getAccountTypeDescription : Model -> String
 getAccountTypeDescription m =
     case m.accountType of
         Specialist ->
-            "A specialist is a programmer, designer, marketing person, or just an individual with some skill that can be of value to nonprofits."
+            "A specialist is a programmer, designer, marketing person, or an individual with some skill that can be of value to nonprofits."
         Organization ->
             "A nonprofit is a specific type of organization that is focused on running business that gives back to the community or helps those in need."
 
