@@ -9,6 +9,8 @@ GET     /                           controllers.HomeController.index
 GET     /contracts/                 controllers.ContractController.index
 
 GET     /organizations/             controllers.OrganizationController.index
+GET     /organizations/$id<[0-9+]>  controllers.OrganizationController.getOrganization(id: Long)
+POST    /organizations/             controllers.OrganizationController.createOrganization
 
 GET     /user/                      controllers.UserController.index
 GET     /user/$id<[0-9+]>           controllers.UserController.getUser(id: Long)

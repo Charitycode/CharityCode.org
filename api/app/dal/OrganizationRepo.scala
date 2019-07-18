@@ -1,6 +1,7 @@
 package dal
 
 import java.sql.Timestamp
+import java.time.Instant
 import javax.inject.{Inject, Singleton}
 
 import play.api.db.slick.DatabaseConfigProvider
@@ -68,6 +69,12 @@ class OrganizationRepo @Inject()(dbConfigProvider: DatabaseConfigProvider)(impli
   def create(organization: Organization): Future[Int] = db.run {
     table += organization
   }
+
+  def get(id: Long): Future[Option[Organization]] =
+    db.run {
+      table.filter(_.id === id).result
+    }
+    .map(_.headOption)
 
   /**
     * List all in the database.
