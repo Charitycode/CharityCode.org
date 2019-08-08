@@ -82,7 +82,6 @@ class OrganizationController @Inject()(cc: ControllerComponents,
               focus = input.focus,
               email = input.email,
               password = AuthService.encodePassword(input.password),
-              created_at = None,
               id = None
             )
           )
