@@ -41,7 +41,7 @@ class UserController @Inject()(cc: ControllerComponents, userRepo: UserRepo)
   }
 
   def getUser(id: Long): Action[AnyContent] = Action.async {
-    implicit request: Request[AnyContent] =>
+      implicit request: Request[AnyContent] =>
       userRepo.get(id).map { userOpt: Option[User] =>
         userOpt match {
           case Some(user) =>
